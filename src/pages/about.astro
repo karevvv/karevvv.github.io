@@ -1,0 +1,30 @@
+---
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import Container from '@/components/Container.astro'
+import Link from '@/components/Link.astro'
+import PageHead from '@/components/PageHead.astro'
+import { SITE } from '@/consts'
+import { Image } from 'astro:assets'
+import Layout from '@/layouts/Layout.astro'
+import logo from '../../public/static/logo.jpeg'
+---
+
+<Layout title="| About" description={SITE.description}>
+  <PageHead slot="head" title="About" />
+  <Container class="flex flex-col gap-y-6">
+    <Breadcrumbs items={[{ label: 'About', icon: 'lucide:info' }]} />
+
+    <section>
+      <div class="min-w-full">
+        <h1 class="mb-4 text-3xl font-bold"><Image src={logo} alt="Logo" class="size-12 float-left mr-4 rounded-sm" />About Me</h1>
+        <p class="prose prose-neutral mb-8 dark:prose-invert">
+          Hi! I'm <b>Karev</b>. I am currently a computer science student interested in security and CTFS. I mostly do forensics for my university team, but I also dabble a bit in cryptography.
+        </p>
+
+        <p class="prose prose-neutral mb-8 dark:prose-invert">
+          This blog is where I post my writeups as well as some topics that interests me. 
+        </p>
+      </div>
+    </section>
+  </Container>
+</Layout>

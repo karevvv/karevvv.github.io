@@ -1,0 +1,72 @@
+---
+import BlogCard from '@/components/BlogCard.astro'
+import Link from '@/components/Link.astro'
+import PageHead from '@/components/PageHead.astro'
+import { buttonVariants } from '@/components/ui/button'
+import { SITE } from '@/consts'
+import Layout from '@/layouts/Layout.astro'
+import { getRecentPosts, getRecentWriteups } from '@/lib/data-utils'
+
+const blog = await getRecentPosts(SITE.featuredPostCount)
+const writeups = await getRecentWriteups(SITE.featuredPostCount)
+---
+
+<Layout class="max-w-3xl">
+  <PageHead slot="head" title="Home" />
+  <section class="rounded-lg border">
+    <div class="flex flex-col space-y-1.5 p-6">
+      <h3 class="text-3xl leading-none font-medium">Hi! I'm Karev</h3>
+    </div>
+    <div class="p-6 pt-0">
+      <p class="mb-2 text-lg">
+      Welcome to my personal website and blog. Here I'll post CTFs writeups as well as any tech topics that interests me.
+      </p>
+    </div>
+  </section>
+  <section class="flex flex-col gap-y-4">
+    <h2 class="text-2xl font-medium">Latest blog posts</h2>
+    <ul class="flex flex-col gap-y-4">
+      {
+        blog.map((post) => (
+          <li>
+            <BlogCard entry={post} />
+          </li>
+        ))
+      }
+    </ul>
+    <div class="flex justify-center">
+      <Link
+        href="/blog"
+        class={buttonVariants({ variant: 'ghost' }) + ' group'}
+      >
+        See all posts <span
+          class="ml-1.5 transition-transform group-hover:translate-x-1"
+          >&rarr;</span
+        >
+      </Link>
+    </div>
+  </section>
+  <section class="flex flex-col gap-y-4 mt-8">
+    <h2 class="text-2xl font-medium">Latest writeups</h2>
+    <ul class="flex flex-col gap-y-4">
+      {
+        writeups.map((writeup) => (
+          <li>
+            <BlogCard entry={writeup} />
+          </li>
+        ))
+      }
+    </ul>
+    <div class="flex justify-center">
+      <Link
+        href="/writeups"
+        class={buttonVariants({ variant: 'ghost' }) + ' group'}
+      >
+        See all writeups <span
+          class="ml-1.5 transition-transform group-hover:translate-x-1"
+          >&rarr;</span
+        >
+      </Link>
+    </div>
+  </section>
+</Layout>

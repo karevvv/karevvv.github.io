@@ -1,0 +1,117 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@theme inline {
+  --font-sans:
+    Geist, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-mono:
+    Geist Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-additive: var(--additive);
+  --color-additive-foreground: var(--additive-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+
+  --color-background-gradient: var(--background-gradient);
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/GeistVF.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMonoVF.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --background: #eff1f5;               
+  --foreground: #4c4f69;               
+
+  --primary: #8839ef;                  
+  --primary-foreground: #eff1f5;
+
+  --secondary: #209fb5;                
+  --secondary-foreground: #eff1f5;
+
+  --muted: #ccd0da;                    
+  --muted-foreground: #6c6f85;         
+
+  --accent: #1e66f5;                   
+  --accent-foreground: #eff1f5;
+
+  --additive: #40a02b;                 
+  --additive-foreground: #eff1f5;
+
+  --destructive: #d20f39;              
+  --destructive-foreground: #eff1f5;
+
+  --border: #bcc0cc;                   
+  --ring: #6c6f85;                     
+  --background-gradient: #eff1f5;
+}
+
+[data-theme='dark'] {
+  --background: #24273a;               
+  --foreground: #cad3f5;               
+
+  --primary: #c6a0f6;                 
+  --primary-foreground: #24273a;
+
+  --secondary: #7dc4e4;                
+  --secondary-foreground: #24273a;
+
+  --muted: #494d64;                    
+  --muted-foreground: #8087a2;         
+  --accent: #8aadf4;                   
+  --accent-foreground: #24273a;
+
+  --additive: #a6da95;                 
+  --additive-foreground: #24273a;
+
+  --destructive: #ed8796;              
+  --destructive-foreground: #24273a;
+
+  --border: #5b6078;                   
+  --ring: #8087a2;                     
+  --background-gradient: #24273a;
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    @apply border-border outline-ring/50 tracking-tight;
+  }
+}
