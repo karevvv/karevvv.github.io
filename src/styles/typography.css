@@ -88,8 +88,21 @@
     }
 
     :where(code):not(:where(.not-prose, .not-prose *)) {
-      @apply bg-muted/50 text-foreground relative rounded-sm px-[0.3rem] py-[0.2rem] text-sm font-medium break-words;
-      @apply [&>span[data-line='']>*]:text-(--shiki-light) dark:[&>span[data-line='']>*]:text-(--shiki-dark);
+      @apply bg-muted/50 relative rounded-sm px-[0.3rem] py-[0.2rem] text-sm font-medium break-words;
+      color: #f38ba8;
+    }
+
+    :where(.shiki):not(:where(pre *, .not-prose, .not-prose *)) {
+      @apply bg-muted/50! relative rounded-sm px-[0.3rem] py-[0.2rem] text-sm font-medium break-words;
+      color: #f38ba8;
+    }
+
+    :where(.shiki code):not(:where(.not-prose, .not-prose *)) {
+      @apply bg-transparent p-0;
+    }
+
+    :where(.shiki span):not(:where(pre *, .not-prose, .not-prose *)) {
+      @apply dark:text-(--shiki-dark)!;
     }
 
     :where(blockquote):not(:where(.not-prose, .not-prose *)) {

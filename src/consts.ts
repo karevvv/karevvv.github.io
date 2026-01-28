@@ -1,5 +1,4 @@
 import type { IconMap, SocialLink, Site } from '@/types'
-import {siSimpleicons} from 'simple-icons';
 
 export const SITE: Site = {
   title: "Karev's Blog",
