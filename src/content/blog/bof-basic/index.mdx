@@ -206,7 +206,7 @@ In order to make this example work, I had to compile the program using the `-mno
 
 ### Stack Frame
 
-As I mentioned earlier, functions use the stack for a lot of things but the one we'll focus on here is local variables. Each function will have its own dedicated stack frame. That means that all local variables, buffer, and etc will reside in that stack frame. Every function could be generally seperated into 3 parts, the prolouge, function body, and epilogue. On the prolouge the function would setup its stack grame, on the function body it will does whatever the function does, and on the epilouge it will tear down its stack pointer.
+As I mentioned earlier, functions use the stack for a lot of things but the one we'll focus on here is local variables. Each function will have its own dedicated stack frame. That means that all local variables, buffer, and etc will reside in that stack frame. Every function could be generally seperated into 3 parts, the prolouge, function body, and epilogue. On the prolouge the function would setup its stack frame, on the function body it will does whatever the function does, and on the epilouge it will tear down its stack frame.
 
 
 ```ansi collapse={1-95,121-130} {"Prolouge": 97-100} {"Epilouge": 109-111}
