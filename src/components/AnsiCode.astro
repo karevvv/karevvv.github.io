@@ -1,0 +1,124 @@
+---
+interface Props {
+  code: string
+  class?: string
+}
+
+const { code, class: className } = Astro.props
+
+// Convert ANSI escape codes to HTML spans with inline styles
+function ansiToHtml(text: string): string {
+  const ansiColors: Record<number, string> = {
+    // Standard colors
+    30: '#000000', 31: '#cc0000', 32: '#4e9a06', 33: '#c4a000',
+    34: '#3465a4', 35: '#75507b', 36: '#06989a', 37: '#d3d7cf',
+    // Bright colors  
+    90: '#555753', 91: '#ef2929', 92: '#8ae234', 93: '#fce94f',
+    94: '#729fcf', 95: '#ad7fa8', 96: '#34e2e2', 97: '#eeeeec',
+  }
+
+  // 256 color palette helper
+  function get256Color(n: number): string {
+    if (n < 16) {
+      const basic = [
+        '#000000', '#800000', '#008000', '#808000', '#000080', '#800080', '#008080', '#c0c0c0',
+        '#808080', '#ff0000', '#00ff00', '#ffff00', '#0000ff', '#ff00ff', '#00ffff', '#ffffff'
+      ]
+      return basic[n]
+    } else if (n < 232) {
+      const i = n - 16
+      const r = Math.floor(i / 36)
+      const g = Math.floor((i % 36) / 6)
+      const b = i % 6
+      const toHex = (v: number) => (v === 0 ? 0 : 55 + v * 40).toString(16).padStart(2, '0')
+      return `#${toHex(r)}${toHex(g)}${toHex(b)}`
+    } else {
+      const gray = (n - 232) * 10 + 8
+      return `#${gray.toString(16).padStart(2, '0').repeat(3)}`
+    }
+  }
+
+  let result = ''
+  let currentStyles: string[] = []
+  let i = 0
+
+  while (i < text.length) {
+    // Match ANSI escape sequence
+    if (text[i] === '\x1b' && text[i + 1] === '[') {
+      const endIndex = text.indexOf('m', i)
+      if (endIndex !== -1) {
+        const codes = text.slice(i + 2, endIndex).split(';').map(Number)
+        
+        // Close previous span if we had styles
+        if (currentStyles.length > 0) {
+          result += '</span>'
+          currentStyles = []
+        }
+
+        // Process codes
+        let j = 0
+        while (j < codes.length) {
+          const code = codes[j]
+          if (code === 0) {
+            currentStyles = []
+          } else if (code === 1) {
+            currentStyles.push('font-weight:bold')
+          } else if (code === 3) {
+            currentStyles.push('font-style:italic')
+          } else if (code === 4) {
+            currentStyles.push('text-decoration:underline')
+          } else if (code >= 30 && code <= 37) {
+            currentStyles.push(`color:${ansiColors[code]}`)
+          } else if (code >= 90 && code <= 97) {
+            currentStyles.push(`color:${ansiColors[code]}`)
+          } else if (code === 38 && codes[j + 1] === 5) {
+            // 256 color foreground
+            currentStyles.push(`color:${get256Color(codes[j + 2])}`)
+            j += 2
+          } else if (code >= 40 && code <= 47) {
+            currentStyles.push(`background-color:${ansiColors[code - 10]}`)
+          } else if (code === 48 && codes[j + 1] === 5) {
+            // 256 color background
+            currentStyles.push(`background-color:${get256Color(codes[j + 2])}`)
+            j += 2
+          }
+          j++
+        }
+
+        // Open new span if we have styles
+        if (currentStyles.length > 0) {
+          result += `<span style="${currentStyles.join(';')}">`
+        }
+
+        i = endIndex + 1
+        continue
+      }
+    }
+
+    // Escape HTML entities
+    if (text[i] === '<') {
+      result += '&lt;'
+    } else if (text[i] === '>') {
+      result += '&gt;'
+    } else if (text[i] === '&') {
+      result += '&amp;'
+    } else {
+      result += text[i]
+    }
+    i++
+  }
+
+  // Close any remaining span
+  if (currentStyles.length > 0) {
+    result += '</span>'
+  }
+
+  return result
+}
+
+const htmlContent = ansiToHtml(code)
+---
+
+<div class:list={["not-prose overflow-x-auto rounded-lg", className]}>
+  <pre class="p-4 text-sm leading-relaxed bg-[#1e1e2e] text-[#cdd6f4] font-mono"><code set:html={htmlContent} /></pre>
+</div>

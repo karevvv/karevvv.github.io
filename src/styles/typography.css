@@ -27,7 +27,7 @@
 
 @layer components {
   .prose {
-    @apply text-foreground text-base leading-7;
+    @apply text-foreground text-lg leading-7;
 
     :where(p):not(:where(.not-prose, .not-prose *)) {
       @apply text-foreground/80 my-5;
@@ -127,7 +127,7 @@
     }
 
     :where(tr):not(:where(.not-prose, .not-prose *)) {
-      @apply border-muted-foreground/30 border-y first:border-t-0 last:border-b-0;
+      @apply border-muted-foreground/50 border-y first:border-t-0 last:border-b-0;
     }
 
     :where(td):not(:where(.not-prose, .not-prose *)) {
